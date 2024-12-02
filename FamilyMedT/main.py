@@ -9,7 +9,15 @@ from medication_management.prescription import PrescriptionMedication
 BASE_DIR = Path(__file__).resolve().parent
 
 def initialize_system():
-    """初始化系统"""
+    """
+    Initialize the FamilyMedT system.
+
+    Returns:
+        tuple: A tuple containing the FamilyManagement and ReminderSystem instances.
+
+    Raises:
+        Exception: If there is an error during initialization.
+    """
     try:
         reminder_system = ReminderSystem(BASE_DIR)
         family_manager = FamilyManagement(BASE_DIR, reminder_system)
@@ -19,7 +27,12 @@ def initialize_system():
         sys.exit(1)
 
 def clean_exit(family_manager):
-    """清理并退出程序"""
+    """
+    Save all data and exit the program.
+
+    Args:
+        family_manager (FamilyManagement): The FamilyManagement instance.
+    """
     try:
         print("\nSaving data and exiting FamilyMedT...")
         if hasattr(family_manager, 'save_all_data'):
@@ -31,6 +44,12 @@ def clean_exit(family_manager):
         sys.exit(1)
 
 def main():
+    """
+    Save all data and exit the program.
+
+    Args:
+        family_manager (FamilyManagement): The FamilyManagement instance.
+    """
     print("Initializing FamilyMedT System...")
     family_manager, reminder_system = initialize_system()
 

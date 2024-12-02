@@ -137,7 +137,7 @@ class InventoryManagement:
         self._save_inventory()
         print(f"Added medication {medication.name} with ID {med_id}")
         
-        # 添加药物时检查库存并设置提醒
+        # Check stock and set reminders if applicable
         try:
             days_left = medication.calculate_days_left()
             if days_left <= 3 and self.reminder_system:

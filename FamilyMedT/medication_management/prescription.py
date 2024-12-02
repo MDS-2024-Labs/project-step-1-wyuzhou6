@@ -41,7 +41,12 @@ class PrescriptionMedication(Medication):
         self._validate_dates()
 
     def _validate_dates(self):
-        """验证日期格式"""
+        """
+        Validate the format of the prescription_date and expiration_date.
+
+        Raises:
+            ValueError: If the dates are not in the correct format (YYYY-MM-DD).
+        """
         try:
             datetime.strptime(self.prescription_date, "%Y-%m-%d")
             datetime.strptime(self.expiration_date, "%Y-%m-%d")
@@ -49,12 +54,23 @@ class PrescriptionMedication(Medication):
             raise ValueError("Dates must be in YYYY-MM-DD format")
 
     def display_prescription_info(self):
+        """
+        Display detailed prescription information as a formatted string.
+
+        Returns:
+            str: A string containing detailed prescription information.
+        """       
         base_info = self.display_info()
         return f"{base_info}, Prescribed by: {self.doctor_name}, Prescription Date: {self.prescription_date}, "\
                f"Indication: {self.indication}, Warnings: {self.warnings}, Expiration Date: {self.expiration_date}"
 
     def is_expired(self):
-        """检查药品是否过期"""
+        """
+        Check if the medication is expired.
+
+        Returns:
+            bool: True if the medication is expired, False otherwise.
+        """
         try:
             current_date = datetime.now().date()
             expiry_date = datetime.strptime(self.expiration_date, "%Y-%m-%d").date()
@@ -64,7 +80,12 @@ class PrescriptionMedication(Medication):
             return True
 
     def to_dict(self):
-        """将对象转为字典"""
+        """
+        Convert the prescription medication object to a dictionary.
+
+        Returns:
+            dict: A dictionary containing the prescription medication details.
+        """
         base_dict = super().to_dict()
         base_dict.update({
             "doctor_name": self.doctor_name,

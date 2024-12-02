@@ -3,6 +3,16 @@ from datetime import datetime
 from medication_management.medication import Medication
 
 class PrescriptionMedication(Medication):
+    """
+    A class representing a prescription medication, inheriting from Medication.
+
+    Attributes:
+        doctor_name (str): The name of the prescribing doctor.
+        prescription_date (str): The date the prescription was issued (YYYY-MM-DD).
+        indication (str): The medical indication for the medication.
+        warnings (str): Any warnings associated with the medication.
+        expiration_date (str): The expiration date of the medication (YYYY-MM-DD).
+    """
     def __init__(self, name, dosage, frequency, daily_dosage, stock, doctor_name, prescription_date, indication, warnings, expiration_date):
         super().__init__(name, dosage, frequency, daily_dosage, stock)
         self.doctor_name = doctor_name

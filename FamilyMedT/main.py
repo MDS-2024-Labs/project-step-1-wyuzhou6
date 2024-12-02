@@ -44,6 +44,12 @@ def clean_exit(family_manager):
         sys.exit(1)
 
 def main():
+    """
+    Save all data and exit the program.
+
+    Args:
+        family_manager (FamilyManagement): The FamilyManagement instance.
+    """
     print("Initializing FamilyMedT System...")
     family_manager, reminder_system = initialize_system()
 

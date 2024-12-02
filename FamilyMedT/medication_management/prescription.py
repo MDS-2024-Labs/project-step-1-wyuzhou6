@@ -14,6 +14,24 @@ class PrescriptionMedication(Medication):
         expiration_date (str): The expiration date of the medication (YYYY-MM-DD).
     """
     def __init__(self, name, dosage, frequency, daily_dosage, stock, doctor_name, prescription_date, indication, warnings, expiration_date):
+        """
+        Initialize a PrescriptionMedication object.
+
+        Args:
+            name (str): The name of the medication.
+            dosage (str): The dosage information (e.g., "500mg").
+            frequency (str): The frequency of intake (e.g., "2 times/day").
+            daily_dosage (int): The daily dosage (number of units per day).
+            stock (int): The current stock level.
+            doctor_name (str): The name of the prescribing doctor.
+            prescription_date (str): The date the prescription was issued (YYYY-MM-DD).
+            indication (str): The medical indication for the medication.
+            warnings (str): Any warnings associated with the medication.
+            expiration_date (str): The expiration date of the medication (YYYY-MM-DD).
+
+        Raises:
+            ValueError: If the dates are not in the correct format (YYYY-MM-DD).
+        """
         super().__init__(name, dosage, frequency, daily_dosage, stock)
         self.doctor_name = doctor_name
         self.prescription_date = prescription_date

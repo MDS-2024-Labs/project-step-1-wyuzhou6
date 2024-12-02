@@ -1,63 +1,40 @@
 # medication.py
-
 class Medication:
-    def __init__(self, med_name, dosage, frequency, daily_dosage, stock):
-        self.med_name = med_name
+    def __init__(self, name, dosage, frequency, daily_dosage, stock):
+        self.name = name
         self.dosage = dosage
         self.frequency = frequency
         self.daily_dosage = daily_dosage
         self.stock = stock
 
-    def get_medication_info(self):
+    def calculate_days_left(self):
+        """计算剩余天数"""
+        if not isinstance(self.daily_dosage, int) or self.daily_dosage <= 0:
+            raise ValueError("Daily dosage must be a positive integer.")
+        return self.stock // self.daily_dosage  # 使用实际的 daily_dosage
+
+    def display_info(self):
+        return f"Medication: {self.name}, Dosage: {self.dosage}, Frequency: {self.frequency}, Daily Dosage: {self.daily_dosage}, Stock: {self.stock}"
+
+    def update_stock(self, quantity):
+        """更新库存"""
+        if not isinstance(quantity, int):
+            raise ValueError("Quantity must be an integer.")
+        if self.stock + quantity < 0:
+            print(f"Not enough stock to remove. Current stock: {self.stock}, Requested: {abs(quantity)}")
+            return False
+        self.stock += quantity
+        return True
+
+    def to_dict(self):
+        """将对象转为字典"""
         return {
-            "name": self.med_name,
+            "name": self.name,
             "dosage": self.dosage,
             "frequency": self.frequency,
             "daily_dosage": self.daily_dosage,
-            "stock": self.stock,
+            "stock": self.stock
         }
 
-    def update_stock(self, quantity):
-        new_stock = self.stock + quantity
-        if new_stock < 0:
-            print(f"Cannot update stock: insufficient stock.")
-            return False
-        self.stock = new_stock
-        return True
-
-    def calculate_days_left(self):
-        if self.daily_dosage == 0:
-            print("Daily dosage is not set.")
-            return None
-        return self.stock // self.daily_dosage
-
-
-class PrescriptionMedication(Medication):
-    def __init__(self, med_name, dosage, frequency, daily_dosage, stock, doctor_name, prescription_date, indication=None, warnings=None, expiration_date=None, feedback=None):
-        super().__init__(med_name, dosage, frequency, daily_dosage, stock)
-        self.doctor_name = doctor_name
-        self.prescription_date = prescription_date
-        self.indication = indication
-        self.warnings = warnings
-        self.expiration_date = expiration_date
-        self.feedback = feedback
-
-    def is_prescription_valid(self):
-        from datetime import datetime
-        if self.expiration_date:
-            expiration = datetime.strptime(self.expiration_date, "%Y-%m-%d")
-            return expiration > datetime.now()
-        return True
-
-    def add_feedback(self, feedback):
-        self.feedback = feedback
-
-    def get_prescription_info(self):
-        return {
-            "doctor_name": self.doctor_name,
-            "prescription_date": self.prescription_date,
-            "indication": self.indication,
-            "warnings": self.warnings,
-            "expiration_date": self.expiration_date,
-            "feedback": self.feedback or "No feedback yet.",
-        }
+    def __repr__(self):
+        return f"Medication(name={self.name}, dosage={self.dosage}, frequency={self.frequency}, daily_dosage={self.daily_dosage}, stock={self.stock})"

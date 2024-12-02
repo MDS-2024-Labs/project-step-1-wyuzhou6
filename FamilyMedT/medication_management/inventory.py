@@ -89,7 +89,7 @@ class InventoryManagement:
             self._create_empty_inventory()
 
     def _create_empty_inventory(self):
-        """创建空的库存文件"""
+        """Create an empty inventory file with predefined columns."""
         columns = [
             'med_id', 'name', 'dosage', 'frequency', 'daily_dosage',
             'stock', 'is_prescription', 'doctor_name', 'prescription_date',
@@ -99,7 +99,9 @@ class InventoryManagement:
         df.to_csv(self.inventory_file, index=False)
 
     def _save_inventory(self):
-        """保存库存数据到CSV"""
+        """
+        Save the current inventory to a CSV file.
+        """
         try:
             data = []
             for med_id, med in self.medications.items():
@@ -119,7 +121,15 @@ class InventoryManagement:
             print(f"Error saving inventory: {str(e)}")
 
     def add_medication(self, medication):
-        """添加新药物"""
+        """
+        Add a new medication to the inventory.
+
+        Args:
+            medication (Medication): The medication object to add.
+
+        Returns:
+            int: The ID of the added medication.
+        """
         med_id = self.next_med_id
         self.medications[med_id] = medication
         self.next_med_id += 1
@@ -142,7 +152,16 @@ class InventoryManagement:
         return med_id
 
     def update_stock(self, med_id, quantity):
-        """更新库存"""
+        """
+        Update the stock of a medication.
+
+        Args:
+            med_id (int): The ID of the medication to update.
+            quantity (int): The amount to add to the stock.
+
+        Returns:
+            bool: True if successful, False otherwise.
+        """
         if med_id not in self.medications:
             print(f"Medication ID {med_id} not found.")
             return False
@@ -152,7 +171,7 @@ class InventoryManagement:
             self._save_inventory()
             print(f"Updated stock for {medication.name} (ID {med_id}) by {quantity}")
 
-            # 检查更新后的库存状态并设置提醒
+             # Check updated stock status and set or clear reminders
             try:
                 days_left = medication.calculate_days_left()
                 if days_left <= 3 and self.reminder_system:
@@ -172,7 +191,15 @@ class InventoryManagement:
         return False
 
     def delete_medication(self, med_id):
-        """删除药物"""
+        """
+        Delete a medication from the inventory.
+
+        Args:
+            med_id (int): The ID of the medication to delete.
+
+        Returns:
+            bool: True if successful, False otherwise.
+        """
         if med_id not in self.medications:
             print(f"Medication ID {med_id} not found.")
             return False
@@ -187,7 +214,12 @@ class InventoryManagement:
         return True
 
     def check_low_stock(self):
-        """检查低库存药物"""
+        """
+        Check for medications with low stock.
+
+        Returns:
+            list: A list of tuples containing medication ID, name, and days left.
+        """
         low_stock = []
         for med_id, medication in self.medications.items():
             try:
@@ -208,7 +240,9 @@ class InventoryManagement:
         return low_stock
 
     def generate_stock_report(self):
-        """生成库存报告"""
+        """
+        Generate a stock report for all medications.
+        """
         if not self.medications:
             print(f"No medications found for {self.member_name}.")
             return
@@ -222,7 +256,9 @@ class InventoryManagement:
             print(f"{med_id:<5} {medication.name:<20} {medication.stock:<10} {days_left:<10}")
 
     def generate_prescription_report(self):
-        """生成处方药报告"""
+        """
+        Generate a report for prescription medications.
+        """
         prescriptions = self.list_prescription_medications()
         if not prescriptions:
             print(f"No prescription medications found for {self.member_name}.")
@@ -236,7 +272,11 @@ class InventoryManagement:
             print(f"{med['id']:<5} {med['name']:<20} {med['doctor']:<15} {med['date']:<12} {med['expiration_date']:<12}")
 
     def list_prescription_medications(self):
-        """列出所有处方药"""
+        """        
+        List all prescription medications.
+        Returns:
+            list: A list of dictionaries with prescription details.
+        """
         prescriptions = [
             {
                 "id": med_id,

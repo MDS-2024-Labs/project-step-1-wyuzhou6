@@ -90,7 +90,6 @@ class Medication:
         """
         Return a string representation of the Medication object.
 
-        Returns:
-            str: A string representing the medication.
+        Returns: A string representing the medication.
         """
         return f"Medication(name={self.name}, dosage={self.dosage}, frequency={self.frequency}, daily_dosage={self.daily_dosage}, stock={self.stock})"

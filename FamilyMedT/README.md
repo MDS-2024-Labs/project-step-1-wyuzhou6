@@ -1,4 +1,4 @@
-# FamilyMedT - Family Medication Tracking System
+## FamilyMedT - Family Medication Tracking System
 
 Developed by Yuzhou Wang and Yubo Wang.
 

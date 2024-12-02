@@ -27,7 +27,7 @@ class InventoryManagement:
         self.base_dir = Path(base_dir)
         self.reminder_system = reminder_system
         
-        # 确保数据目录存在
+        # Ensure the data directory exists
         self.data_dir = self.base_dir / "data"
         self.data_dir.mkdir(exist_ok=True)
         
@@ -39,7 +39,10 @@ class InventoryManagement:
         self._load_inventory()
 
     def _load_inventory(self):
-        """从CSV加载库存数据"""
+        """
+        Load inventory data from a CSV file. If the file doesn't exist,
+        create an empty inventory file.
+        """
         if not self.inventory_file.exists():
             self._create_empty_inventory()
             return
@@ -49,7 +52,7 @@ class InventoryManagement:
             if df.empty:
                 self._create_empty_inventory()
                 return
-
+            # Load medications from the CSV file
             for _, row in df.iterrows():
                 try:
                     if row['is_prescription']:

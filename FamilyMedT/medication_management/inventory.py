@@ -6,7 +6,23 @@ from medication_management.medication import Medication
 from medication_management.prescription import PrescriptionMedication
 
 class InventoryManagement:
+    """
+    A class to manage medication inventory for a specific member.
+    
+    Attributes:
+        member_name (str): Name of the member.
+        base_dir (Path): Base directory to store data files.
+        reminder_system (object): Optional reminder system for low stock alerts.
+    """    
     def __init__(self, member_name, base_dir, reminder_system=None):
+        """
+        Initialize the InventoryManagement class.
+
+        Args:
+            member_name (str): Name of the member.
+            base_dir (str): Base directory to store data files.
+            reminder_system (object, optional): Reminder system for alerts.
+        """
         self.member_name = member_name
         self.base_dir = Path(base_dir)
         self.reminder_system = reminder_system

@@ -18,6 +18,7 @@ FamilyMedT is a Python-based medication management system designed to help famil
 ```
 FamilyMedT/
 ├── __init__.py
+│
 ├── medication_management/
 │   ├── __init__.py
 │   ├── medication.py        # Base medication class

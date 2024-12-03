@@ -226,7 +226,7 @@ class InventoryManagement:
                 days_left = medication.calculate_days_left()
                 if days_left <= 3:
                     low_stock.append((med_id, medication.name, days_left))
-                    # 检查时同时设置提醒
+                     # Set reminders during low stock check
                     if self.reminder_system:
                         self.reminder_system.set_reminder(
                             self.member_name,

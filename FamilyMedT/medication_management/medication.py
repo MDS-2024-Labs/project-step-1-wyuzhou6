@@ -37,9 +37,10 @@ class Medication:
         Raises:
             ValueError: If daily_dosage is not a positive integer.
         """
+        # Ensure that daily_dosage is a valid positive integer
         if not isinstance(self.daily_dosage, int) or self.daily_dosage <= 0:
             raise ValueError("Daily dosage must be a positive integer.")
-        return self.stock // self.daily_dosage  # 使用实际的 daily_dosage
+        return self.stock // self.daily_dosage  #  Calculate the remaining days of stock
 
     def display_info(self):
         """
@@ -48,6 +49,7 @@ class Medication:
         Returns:
             str: A string containing medication details.
         """
+         # Format and return a string with all medication details
         return f"Medication: {self.name}, Dosage: {self.dosage}, Frequency: {self.frequency}, Daily Dosage: {self.daily_dosage}, Stock: {self.stock}"
 
     def update_stock(self, quantity):
@@ -63,12 +65,13 @@ class Medication:
         Raises:
             ValueError: If quantity is not an integer.
         """
+        # Check if the quantity is a valid integer
         if not isinstance(quantity, int):
             raise ValueError("Quantity must be an integer.")
-        if self.stock + quantity < 0:
+        if self.stock + quantity < 0:   # Verify that there is enough stock to remove the requested amount
             print(f"Not enough stock to remove. Current stock: {self.stock}, Requested: {abs(quantity)}")
             return False
-        self.stock += quantity
+        self.stock += quantity  # Update the stock level
         return True
 
     def to_dict(self):
@@ -78,6 +81,7 @@ class Medication:
         Returns:
             dict: A dictionary containing the medication details.
         """
+        # Convert the medication's attributes into a dictionary format
         return {
             "name": self.name,
             "dosage": self.dosage,
@@ -92,4 +96,6 @@ class Medication:
 
         Returns: A string representing the medication.
         """
+        # Provide a concise string representation of the medication object
+        # for debugging or logging purposes
         return f"Medication(name={self.name}, dosage={self.dosage}, frequency={self.frequency}, daily_dosage={self.daily_dosage}, stock={self.stock})"

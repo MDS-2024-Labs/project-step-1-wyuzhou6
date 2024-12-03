@@ -19,7 +19,9 @@ def initialize_system():
         Exception: If there is an error during initialization.
     """
     try:
+        # Initialize the reminder system
         reminder_system = ReminderSystem(BASE_DIR)
+        # Initialize the family manager with the reminder system
         family_manager = FamilyManagement(BASE_DIR, reminder_system)
         return family_manager, reminder_system
     except Exception as e:
@@ -35,6 +37,7 @@ def clean_exit(family_manager):
     """
     try:
         print("\nSaving data and exiting FamilyMedT...")
+        # Check if the family manager has a save method and call it
         if hasattr(family_manager, 'save_all_data'):
             family_manager.save_all_data()
         print("Goodbye!")
@@ -51,12 +54,14 @@ def main():
         family_manager (FamilyManagement): The FamilyManagement instance.
     """
     print("Initializing FamilyMedT System...")
+    # Initialize the system components
     family_manager, reminder_system = initialize_system()
 
     while True:
         try:
+            # Display any pending reminders
             reminder_system.list_all_reminders()
-
+             # Display the main menu
             print("\n=== FamilyMedT Menu ===")
             print("1. Add Family Member")
             print("2. Switch to Family Member")
@@ -71,9 +76,11 @@ def main():
             print("11. Delete Medication for Current Member")
             print("12. Exit")
 
+            # Get user input
             choice = input("\nEnter your choice: ").strip()
 
             if choice == "1":
+                # Add a new family member
                 name = input("Enter family member's name: ").strip()
                 if name:
                     family_manager.add_member(name)
@@ -81,6 +88,7 @@ def main():
                     print("Name cannot be empty.")
 
             elif choice == "2":
+                # Switch to an existing family member
                 name = input("Enter family member's name: ").strip()
                 if name:
                     family_manager.switch_member(name)
@@ -88,26 +96,29 @@ def main():
                     print("Name cannot be empty.")
 
             elif choice == "3":
+                # List all family members
                 family_manager.list_members()
 
             elif choice == "4":
+                # Add medication for the current family member
                 inventory_manager = family_manager.get_current_member_inventory()
                 if inventory_manager:
                     try:
-                        # 修正了这里的参数名称
+                        # Collect medication details from the user
                         name = input("Enter medication name: ").strip()
                         dosage = input("Enter dosage (e.g., 50mg): ").strip()
                         frequency = input("Enter frequency (e.g., twice daily): ").strip()
                         daily_dosage = int(input("Enter daily dosage (number of pills): "))
                         stock = int(input("Enter current stock: "))
 
+                        # Check if it's a prescription medication
                         if input("Is this a prescription medication? (yes/no): ").lower() == 'yes':
                             doctor_name = input("Enter doctor's name: ").strip()
                             prescription_date = input("Enter prescription date (YYYY-MM-DD): ").strip()
                             indication = input("Enter indication: ").strip()
                             warnings = input("Enter warnings: ").strip()
                             expiration_date = input("Enter expiration date (YYYY-MM-DD): ").strip()
-
+                            # Create a PrescriptionMedication object
                             medication = PrescriptionMedication(
                                 name=name,
                                 dosage=dosage,
@@ -121,6 +132,7 @@ def main():
                                 expiration_date=expiration_date
                             )
                         else:
+                            # Create a regular Medication object
                             medication = Medication(
                                 name=name,
                                 dosage=dosage,
@@ -129,6 +141,7 @@ def main():
                                 stock=stock
                             )
 
+                        # Add medication to the inventory
                         inventory_manager.add_medication(medication)
 
                     except ValueError as e:
@@ -137,6 +150,7 @@ def main():
                         print(f"Error adding medication: {str(e)}")
 
             elif choice == "5":
+                # Update stock for a medication
                 inventory_manager = family_manager.get_current_member_inventory()
                 if inventory_manager:
                     try:
@@ -152,17 +166,20 @@ def main():
                     print("No member selected.")
 
             elif choice == "6":
+                # Generate a stock report for the current member
                 inventory_manager = family_manager.get_current_member_inventory()
                 if inventory_manager:
                     inventory_manager.generate_stock_report()
 
             elif choice == "7":
+                # List reminders for the current member
                 if family_manager.current_member:
                     reminder_system.list_reminders(family_manager.current_member)
                 else:
                     print("No member selected.")
 
             elif choice == "8":
+                # List all prescription medications for the current member
                 inventory_manager = family_manager.get_current_member_inventory()
                 if inventory_manager:
                     prescriptions = inventory_manager.list_prescription_medications()
@@ -179,11 +196,13 @@ def main():
                         print("No prescription medications found.")
 
             elif choice == "9":
+                # Generate a prescription report for the current member
                 inventory_manager = family_manager.get_current_member_inventory()
                 if inventory_manager:
                     inventory_manager.generate_prescription_report()
 
             elif choice == "10":
+                 # Delete a family member
                 name = input("Enter family member's name to delete: ").strip()
                 if name:
                     family_manager.delete_member(name)
@@ -191,6 +210,7 @@ def main():
                     print("Name cannot be empty.")
 
             elif choice == "11":
+                # Delete a medication for the current member
                 inventory_manager = family_manager.get_current_member_inventory()
                 if inventory_manager:
                     try:
@@ -205,12 +225,14 @@ def main():
                     print("No member selected.")
 
             elif choice == "12":
+                # Exit the program
                 clean_exit(family_manager)
 
             else:
                 print("Invalid choice. Please try again.")
 
         except KeyboardInterrupt:
+             # Handle keyboard interrupt (Ctrl+C)
             print("\nReceived interrupt signal.")
             clean_exit(family_manager)
         except Exception as e:
@@ -220,6 +242,7 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
+        # Handle keyboard interrupt at the program level
         print("\nProgram interrupted by user.")
         sys.exit(0)
     except Exception as e:

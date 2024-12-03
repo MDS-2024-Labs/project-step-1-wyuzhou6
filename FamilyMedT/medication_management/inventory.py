@@ -31,12 +31,12 @@ class InventoryManagement:
         self.data_dir = self.base_dir / "data"
         self.data_dir.mkdir(exist_ok=True)
         
-        self.inventory_file = self.data_dir / f"{member_name}_inventory.csv"
+        self.inventory_file = self.data_dir / f"{member_name}_inventory.csv"   # Define paths for inventory and history files
         self.history_file = self.data_dir / f"{member_name}_history.csv"
 
-        self.medications = {}
+        self.medications = {} # Initialize medication dictionary and ID tracker
         self.next_med_id = 1
-        self._load_inventory()
+        self._load_inventory() # Load inventory if it exists
 
     def _load_inventory(self):
         """
@@ -55,7 +55,7 @@ class InventoryManagement:
             # Load medications from the CSV file
             for _, row in df.iterrows():
                 try:
-                    if row['is_prescription']:
+                    if row['is_prescription']:  # Differentiate between prescription and non-prescription medications
                         med = PrescriptionMedication(
                             name=row['name'],
                             dosage=row['dosage'],
@@ -81,7 +81,7 @@ class InventoryManagement:
                     print(f"Error loading medication: {str(e)}")
                     continue
 
-            if not df.empty:
+            if not df.empty:     # Update the next medication ID
                 self.next_med_id = df['med_id'].max() + 1
 
         except Exception as e:
@@ -174,7 +174,7 @@ class InventoryManagement:
              # Check updated stock status and set or clear reminders
             try:
                 days_left = medication.calculate_days_left()
-                if days_left <= 3 and self.reminder_system:
+                if days_left <= 3 and self.reminder_system: # Set reminders during low stock check
                     self.reminder_system.set_reminder(
                         self.member_name,
                         med_id,

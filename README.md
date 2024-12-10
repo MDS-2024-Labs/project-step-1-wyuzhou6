@@ -1,6 +1,6 @@
 This is the project:FamilyMedT - Family Medication Tracking System,Developed by Yuzhou Wang and Yubo Wang.
 
-# FamilyMedT System Documentation
+# FamilyMedT System README
 
 ## System Overview
 FamilyMedT is a family medication tracking system that helps manage medications for multiple family members. The system provides functionality for medication inventory management, prescription tracking, and low stock alerts.
